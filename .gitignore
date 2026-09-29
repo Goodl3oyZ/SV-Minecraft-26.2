@@ -1,0 +1,27 @@
+# Minecraft Server .gitignore
+
+# World & Save files (Heavy dynamic data)
+world/
+world_nether/
+world_the_end/
+backups/
+
+# Runtime binaries & libraries (Downloaded via setup_server.ps1)
+*.jar
+libraries/
+versions/
+.fabric/
+
+# Logs & Cache
+logs/
+crash-reports/
+dumps/
+crafttweaker.log
+usercache.json
+usernamecache.json
+
+# Server State (Optional to ignore)
+banned-ips.json
+banned-players.json
+ops.json
+whitelist.json

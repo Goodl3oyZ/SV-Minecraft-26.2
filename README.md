@@ -14,22 +14,21 @@
 
 ## 📖 ขั้นตอนการติดตั้ง Java 25 และเปิดใช้งานบน Linux LXC / VPS
 
-### 1. ติดตั้ง Java 25 บน Linux
+### 1. ติดตั้ง Java 25 บน Linux (Adoptium / Eclipse Temurin)
 
 ```bash
-# 1. ดาวน์โหลด OpenJDK 25
-wget https://download.java.net/java/GA/jdk25/9/GPL/openjdk-25_linux-x64_bin.tar.gz
+# 1. ดาวน์โหลด OpenJDK 25 อัตโนมัติจาก Adoptium
+curl -sSL "https://api.adoptium.net/v3/binary/latest/25/ga/linux/x64/jdk/hotspot/normal/eclipse" -o openjdk25.tar.gz
 
-# 2. แตกไฟล์ไปไว้ที่ /opt/
-tar -xzf openjdk-25_linux-x64_bin.tar.gz
-sudo mv jdk-25 /opt/
+# 2. สร้างโฟลเดอร์และแตกไฟล์ไว้ที่ /opt/jdk-25
+mkdir -p /opt/jdk-25
+tar -xzf openjdk25.tar.gz -C /opt/jdk-25 --strip-components=1
 
-# 3. ตั้งค่าให้ระบบใช้ Java 25 เป็นหลัก
-sudo update-alternatives --install /usr/bin/java java /opt/jdk-25/bin/java 100
-sudo update-alternatives --set java /opt/jdk-25/bin/java
+# 3. ลบไฟล์ติดตั้งชั่วคราว
+rm openjdk25.tar.gz
 
-# 4. ตรวจสอบเวอร์ชัน (ต้องขึ้น java version "25...")
-java -version
+# 4. ตรวจสอบเวอร์ชัน Java 25
+/opt/jdk-25/bin/java -version
 ```
 
 ---

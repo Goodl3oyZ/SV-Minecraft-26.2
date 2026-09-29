@@ -23,7 +23,7 @@ while true; do
       -XX:InitiatingHeapOccupancyPercent=15 \
       -XX:G1MixedGCLiveThresholdPercent=90 \
       -XX:G1RSetUpdatingPauseTimePercent=5 \
-      -XX:SurvialRatio=8 \
+      -XX:SurvivorRatio=8 \
       -jar fabric-server-launch.jar nogui
 
     echo ""

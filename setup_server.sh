@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Minecraft Fabric Server Setup Script for Linux (Java & Bedrock Cross-Play Enabled)
+# Minecraft Fabric Server Setup Script for Linux (Java & Bedrock Cross-Play)
 set -e
 
 SERVER_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
@@ -13,9 +13,9 @@ echo "=========================================="
 # Step 1: Clean old files except repository scripts
 echo "[1/6] Cleaning old runtime files..."
 find . -mindepth 1 -maxdepth 1 \
-  ! -name 'setup_server.*' \
-  ! -name 'start_server.*' \
-  ! -name 'backup_world.*' \
+  ! -name 'setup_server.sh' \
+  ! -name 'start_server.sh' \
+  ! -name 'backup_world.sh' \
   ! -name 'README.md' \
   ! -name '.gitignore' \
   ! -name '.git' \
@@ -46,7 +46,7 @@ if [ -z "$LITHIUM_URL" ]; then
 fi
 curl -sSL "$LITHIUM_URL" -o mods/lithium.jar
 
-# Geyser-Fabric (Bedrock Edition Cross-Play)
+# Geyser-Fabric (Bedrock Cross-Play)
 echo "  Downloading Geyser-Fabric (Bedrock Cross-Play support)..."
 curl -sSL "https://download.geysermc.org/v2/projects/geyser/versions/latest/builds/latest/downloads/fabric" -o mods/Geyser-Fabric.jar || true
 

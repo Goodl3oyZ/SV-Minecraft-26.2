@@ -4,33 +4,35 @@
 
 ---
 
-## 🚀 จุดเด่น (Features)
-
-- **⚡ ติดตั้งอัตโนมัติในคำสั่งเดียว**: ใช้สคริปต์ `setup_server.sh` ดาวน์โหลด Fabric 26.3, มอด และตั้งค่า EULA ให้อัตโนมัติ
-- **📱 รองรับ Cross-Play (Java + Bedrock)**: ติดตั้งมอด `Geyser-Fabric` และ `ViaVersion` ให้มือถือ (PE / iOS / Android) เข้าเล่นได้
-- **🔥 มอดเพิ่มความลื่น**: ติดตั้ง `Lithium` ช่วยเพิ่ม Tick rate และลดอาการกระตุกของเซิร์ฟเวอร์
-- **⚙️ สคริปต์รันเซิร์ฟเวอร์ (`start_server.sh`)**:
-  - กำหนด RAM 4GB (`-Xms4G -Xmx4G`)
-  - ใช้ **Aikar's G1GC Flags** ปรับแต่งการใช้หน่วยความจำ
-  - ระบบ **Auto-Restart Loop** รันใหม่ให้อัตโนมัติเมื่อเกิด Crash
-- **📦 ระบบสำรองข้อมูลแมพ (`backup_world.sh`)**: สำรองข้อมูลเป็นไฟล์ `.zip` พร้อมประทับเวลาใส่โฟลเดอร์ `/backups`
-
----
-
 ## 🛠️ สิ่งที่ต้องมีก่อนเริ่ม (Requirements)
 
 - **OS**: Linux Server (Ubuntu 20.04/22.04/24.04, Debian 11/12, CentOS 8/9, RHEL)
-- **Java**: Java 21 ขึ้นไป (เช่น OpenJDK 21 LTS)
+- **Java**: **Java 25** (เนื่องจาก Minecraft 26.3 ต้องการ Java 25 / Class version 69.0)
 - **RAM**: อย่างน้อย 4 GB
 
 ---
 
-## 📖 ขั้นตอนการใช้งานบน Linux Server / VPS
+## 📖 ขั้นตอนการติดตั้ง Java 25 และเปิดใช้งานบน Linux LXC / VPS
 
-### 1. ติดตั้ง Dependencies (Java 21, Curl, Zip)
+### 1. ติดตั้ง Java 25 บน Linux
+
 ```bash
-sudo apt update && sudo apt install -y openjdk-21-jre-headless curl zip
+# 1. ดาวน์โหลด OpenJDK 25
+wget https://download.java.net/java/GA/jdk25/9/GPL/openjdk-25_linux-x64_bin.tar.gz
+
+# 2. แตกไฟล์ไปไว้ที่ /opt/
+tar -xzf openjdk-25_linux-x64_bin.tar.gz
+sudo mv jdk-25 /opt/
+
+# 3. ตั้งค่าให้ระบบใช้ Java 25 เป็นหลัก
+sudo update-alternatives --install /usr/bin/java java /opt/jdk-25/bin/java 100
+sudo update-alternatives --set java /opt/jdk-25/bin/java
+
+# 4. ตรวจสอบเวอร์ชัน (ต้องขึ้น java version "25...")
+java -version
 ```
+
+---
 
 ### 2. Clone Repository
 ```bash
@@ -45,15 +47,9 @@ chmod +x setup_server.sh start_server.sh backup_world.sh
 ```
 
 ### 4. เปิดเซิร์ฟเวอร์
-- **รันปกติ**:
-  ```bash
-  ./start_server.sh
-  ```
-- **รันเบื้องหลังด้วย `screen` (แนะนำสำหรับ VPS)**:
-  ```bash
-  screen -S mc-server ./start_server.sh
-  ```
-  *(กด `Ctrl + A` แล้วตามด้วย `D` เพื่อออกจากหน้าจอเบื้องหลัง)*
+```bash
+./start_server.sh
+```
 
 ---
 

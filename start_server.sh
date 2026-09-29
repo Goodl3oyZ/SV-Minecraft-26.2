@@ -2,7 +2,7 @@
 # Start script for Fabric Minecraft Server (Linux)
 
 echo "========================================================"
-echo "  Starting Minecraft Fabric Server 26.3 (4GB RAM)"
+echo "  Starting Minecraft Fabric Server 26.2 (4GB RAM)"
 echo "========================================================"
 echo ""
 

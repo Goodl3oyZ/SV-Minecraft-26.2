@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Minecraft Fabric Server Setup Script for Linux (MC 26.3)
+# Minecraft Fabric Server Setup Script for Linux (MC 26.2 - Java & Bedrock Cross-Play Enabled)
 set -e
 
 SERVER_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
@@ -7,7 +7,7 @@ cd "$SERVER_DIR"
 
 echo "=========================================="
 echo "  Minecraft Fabric Server Setup (Linux)   "
-echo "  Minecraft Version: 26.3                 "
+echo "  Minecraft Version: 26.2 (Cross-Play)    "
 echo "=========================================="
 
 # Step 1: Clean old files except repository scripts
@@ -21,30 +21,34 @@ find . -mindepth 1 -maxdepth 1 \
   ! -name '.git' \
   -exec rm -rf {} + 2>/dev/null || true
 
-# Step 2: Download Fabric Server Jar
-echo "[2/6] Downloading Fabric Server JAR (MC 26.3)..."
-curl -sSL "https://meta.fabricmc.net/v2/versions/loader/26.3/0.19.5/1.1.2/server/jar" -o fabric-server-launch.jar
+# Step 2: Download Fabric Server Jar for 26.2
+echo "[2/6] Downloading Fabric Server JAR (MC 26.2)..."
+curl -sSL "https://meta.fabricmc.net/v2/versions/loader/26.2/0.19.5/1.1.2/server/jar" -o fabric-server-launch.jar
 echo "  Downloaded fabric-server-launch.jar!"
 
-# Step 3: Download Mods (Fabric API & Lithium)
-echo "[3/6] Installing essential mods (Fabric API & Lithium)..."
+# Step 3: Download Mods (Fabric API, Lithium, Geyser-Fabric)
+echo "[3/6] Installing mods (Fabric API, Lithium, Geyser-Fabric)..."
 mkdir -p mods
 
-# Fabric API
-echo "  Downloading Fabric API for MC 26.3..."
-FABRIC_API_URL=$(curl -sSL "https://api.modrinth.com/v2/project/fabric-api/version?game_versions=%5B%2226.3%22%5D&loaders=%5B%22fabric%22%5D" | grep -o '"url":"[^"]*"' | head -n 1 | cut -d'"' -f4 || true)
+# Fabric API for 26.2
+echo "  Downloading Fabric API for MC 26.2..."
+FABRIC_API_URL=$(curl -sSL "https://api.modrinth.com/v2/project/fabric-api/version?game_versions=%5B%2226.2%22%5D&loaders=%5B%22fabric%22%5D" | grep -o '"url":"[^"]*"' | head -n 1 | cut -d'"' -f4 || true)
 if [ -z "$FABRIC_API_URL" ]; then
     FABRIC_API_URL=$(curl -sSL "https://api.modrinth.com/v2/project/fabric-api/version" | grep -o '"url":"[^"]*"' | head -n 1 | cut -d'"' -f4)
 fi
 curl -sSL "$FABRIC_API_URL" -o mods/fabric-api.jar
 
-# Lithium
-echo "  Downloading Lithium for MC 26.3..."
-LITHIUM_URL=$(curl -sSL "https://api.modrinth.com/v2/project/lithium/version?game_versions=%5B%2226.3%22%5D&loaders=%5B%22fabric%22%5D" | grep -o '"url":"[^"]*"' | head -n 1 | cut -d'"' -f4 || true)
+# Lithium for 26.2
+echo "  Downloading Lithium for MC 26.2..."
+LITHIUM_URL=$(curl -sSL "https://api.modrinth.com/v2/project/lithium/version?game_versions=%5B%2226.2%22%5D&loaders=%5B%22fabric%22%5D" | grep -o '"url":"[^"]*"' | head -n 1 | cut -d'"' -f4 || true)
 if [ -z "$LITHIUM_URL" ]; then
     LITHIUM_URL=$(curl -sSL "https://api.modrinth.com/v2/project/lithium/version" | grep -o '"url":"[^"]*"' | head -n 1 | cut -d'"' -f4)
 fi
 curl -sSL "$LITHIUM_URL" -o mods/lithium.jar
+
+# Geyser-Fabric (Bedrock Cross-Play)
+echo "  Downloading Geyser-Fabric (Bedrock Cross-Play)..."
+curl -sSL "https://download.geysermc.org/v2/projects/geyser/versions/latest/builds/latest/downloads/fabric" -o mods/Geyser-Fabric.jar
 
 echo "  Mods installed into /mods!"
 
@@ -61,7 +65,7 @@ enable-command-block=true
 gamemode=survival
 level-name=world
 max-players=20
-motd=\u00A7b\u00A7lFabric Minecraft Server \u00A77(26.3)\u00A7r\n\u00A7eClean Modern Setup - Java 25
+motd=\u00A7b\u00A7lFabric Minecraft Server \u00A77(26.2)\u00A7r\n\u00A7eJava + Bedrock (PE) Cross-Play Enabled
 network-compression-threshold=256
 online-mode=true
 pvp=true
@@ -77,5 +81,7 @@ chmod +x backup_world.sh 2>/dev/null || true
 
 echo "=========================================="
 echo "  Fabric Server Setup Completed!"
-echo "  Java Port: 25565 (TCP)"
+echo "  Minecraft Version: 26.2"
+echo "  Java Port:    25565 (TCP)"
+echo "  Bedrock Port: 19132 (UDP)"
 echo "=========================================="

@@ -6,8 +6,16 @@ echo "  Starting Minecraft Fabric Server 26.3 (4GB RAM)"
 echo "========================================================"
 echo ""
 
+JAVACMD="java"
+if [ -f "/opt/jdk-25/bin/java" ]; then
+    JAVACMD="/opt/jdk-25/bin/java"
+fi
+
+echo "Using Java binary: $JAVACMD"
+$JAVACMD -version
+
 while true; do
-    java -Xms4G -Xmx4G \
+    $JAVACMD -Xms4G -Xmx4G \
       -XX:+UseG1GC \
       -XX:+ParallelRefProcEnabled \
       -XX:MaxGCPauseMillis=200 \
